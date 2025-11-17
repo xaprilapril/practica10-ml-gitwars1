@@ -7,12 +7,9 @@ services:
     branch: main
     dockerfilePath: ./deployments/Dockerfile
     dockerContext: .
-    dockerCommand: uvicorn api.main:app --host 0.0.0.0 --port 10000
     envVars:
       - key: PORT
         value: 10000
-      - key: PYTHON_VERSION
-        value: "3.11"
       - key: PYTHONUNBUFFERED
         value: "1"
     healthCheckPath: /health
