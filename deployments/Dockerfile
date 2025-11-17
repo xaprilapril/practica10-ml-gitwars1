@@ -7,10 +7,13 @@ WORKDIR /app
 # Copiar archivos de requirements primero (para aprovechar cache de Docker)
 COPY api/requirements.txt /app/api/requirements.txt
 
-# Instalar dependencias del sistema necesarias para scikit-optimize
+# Instalar dependencias del sistema necesarias para compilación
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     g++ \
+    gfortran \
+    libopenblas-dev \
+    liblapack-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Instalar dependencias de Python
