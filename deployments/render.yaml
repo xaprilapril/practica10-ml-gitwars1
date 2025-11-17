@@ -1,0 +1,16 @@
+services:
+  # Servicio web para la API de superhéroes
+  - type: web
+    name: gitwars-superheroes-api
+    runtime: docker
+    plan: free
+    branch: main
+    dockerfilePath: ./deployments/Dockerfile
+    dockerContext: .
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: PYTHON_VERSION
+        value: 3.11
+    healthCheckPath: /health
+    autoDeploy: true
