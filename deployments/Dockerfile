@@ -4,10 +4,13 @@ FROM python:3.11-slim
 # Establecer directorio de trabajo
 WORKDIR /app
 
-# Copiar archivos de requirements primero (para aprovechar cache de Docker)
+# Copiar SOLO requirements de producción (api/requirements.txt)
+# Nota: No usar requirements-dev.txt en producción para evitar dependencias innecesarias
 COPY api/requirements.txt /app/api/requirements.txt
 
 # Instalar dependencias del sistema necesarias para compilación
+# gfortran: Requerido para compilar scipy (dependencia de scikit-optimize)
+# libopenblas-dev, liblapack-dev: Bibliotecas de álgebra lineal optimizadas
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     g++ \
@@ -17,8 +20,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
-# Instalar dependencias de Python
-# Instalar numpy primero, luego scipy, luego el resto
+# Instalar dependencias de Python en orden específico
+# 1. Actualizar pip, setuptools y wheel
+# 2. Instalar numpy primero (requerido por scipy)
+# 3. Instalar scipy explícitamente (dejando que pip elija versión compatible)
+# 4. Instalar resto de dependencias de api/requirements.txt
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
     pip install --no-cache-dir numpy==1.26.4 && \
     pip install --no-cache-dir scipy && \
