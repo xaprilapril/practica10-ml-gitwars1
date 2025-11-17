@@ -38,15 +38,14 @@ RUN mkdir -p /app/model
 
 # Variable de entorno para Python
 ENV PYTHONUNBUFFERED=1
+ENV PORT=8000
 
-# Exponer puertos (8000 para local, 10000 para Render)
-EXPOSE 8000
-EXPOSE 10000
+# Exponer puerto dinámico (configurable por $PORT)
+EXPOSE $PORT
 
-# Healthcheck
+# Healthcheck ajustable al puerto
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" || exit 1
+    CMD python -c "import os, urllib.request; urllib.request.urlopen(f'http://localhost:{os.environ.get(\"PORT\", \"8000\")}/health')" || exit 1
 
-# Comando por defecto para ejecución local (puerto 8000)
-# Render sobrescribirá esto con el puerto 10000
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Comando por defecto usando variable de entorno PORT
+CMD uvicorn api.main:app --host 0.0.0.0 --port ${PORT}

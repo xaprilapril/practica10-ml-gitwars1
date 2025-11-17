@@ -1,0 +1,48 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+
+# Development
+requirements-dev.txt
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Documentation
+README.md
+DEPENDENCIES.md
+*.md
+
+# Tests
+tests/
+*.test.py
+
+# Notebooks
+notebooks/
+*.ipynb
+
+# Data (excepto si es necesario)
+data/
+*.csv
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
