@@ -14,10 +14,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gfortran \
     libopenblas-dev \
     liblapack-dev \
+    pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
 # Instalar dependencias de Python
-RUN pip install --no-cache-dir --upgrade pip && \
+# Instalar numpy primero, luego scipy, luego el resto
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
+    pip install --no-cache-dir numpy==1.26.4 && \
+    pip install --no-cache-dir scipy && \
     pip install --no-cache-dir -r /app/api/requirements.txt
 
 # Copiar todo el proyecto al contenedor
