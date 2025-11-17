@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # 4. Instalar resto de dependencias de api/requirements.txt
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
     pip install --no-cache-dir numpy==1.26.4 && \
-    pip install --no-cache-dir scipy && \
+    pip install --no-cache-dir scipy==1.11.4 && \
     pip install --no-cache-dir -r /app/api/requirements.txt
 
 # Copiar todo el proyecto al contenedor
